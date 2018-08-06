@@ -70,11 +70,11 @@
 
          <table class="sudoku-container">
          	<tbody>
-         	<tr v-for="(values, keys) in grits">
-         		<td v-for="v,k in values" :class="get_bg(keys,k)">
-         			<input maxlength="1" :value="(v==0) ? '' : v" readonly>
+         	<tr v-for="(line, row) in grids">
+         		<td v-for="item, col in line" :class="get_bg(row,col)">
+         			<cube :r="row" :c="col" :i="item" ></cube>
          		</td>
-         	</tr>
+         	</tr>         	
          	</tbody>
          </table>
 
@@ -84,13 +84,21 @@
       
       <script type="text/javascript">
 
-         var app = new Vue({
-            el: '#root',
+		Vue.component('cube', {
+		  data: function () {
+		    return {
+		      count: 0
+		    }
+		  },
+		  props: ['r','c','i'],
+		  template: '<input maxlength="1" :value="(i>0) ? i : null" :readonly="(i>0) ? true : false">',
+		});
 
-            data:{
-               bg1: "bg1",	
-               bg2: "bg2",	
-               grits: [
+		var app = new Vue({
+			el: '#root',
+
+			data:{
+			   grids: [
 						[ 0, 9, 0, 0, 0, 0, 8, 5, 3 ],
 						[ 0, 0, 0, 8, 0, 0, 0, 0, 4 ],
 						[ 0, 0, 8, 2, 0, 3, 0, 6, 9 ],
@@ -101,14 +109,16 @@
 						[ 7, 0, 0, 0, 0, 6, 0, 0, 0 ],
 						[ 6, 8, 2, 0, 0, 0, 0, 9, 0 ] 
 					  ],
-            },
-            
-            methods: {
-               get_bg : function(rows,cols) {
-                  return ((( (cols>2&&cols<6)||(rows>2&&rows<6) )&&( (cols<3||cols>5)||(rows<3||rows>5) )) ? "bg1" : "bg2");
-               }
-            },
-         })
+			},
+
+			methods: {
+			   get_bg : function(rows,cols) {
+			      return ((( (cols>2&&cols<6)||(rows>2&&rows<6) )&&( (cols<3||cols>5)||(rows<3||rows>5) )) ? "bg1" : "bg2");
+			   }
+			},
+		});
+
+
 
       </script>
 
