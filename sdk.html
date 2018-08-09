@@ -23,12 +23,6 @@
 			margin-right: auto;
 		}
 
-		.sudoku-menu button {
-			font-size: 24px;
-			margin: 10px;
-			padding: 5px;
-		}
-
 		.sudoku-container {
 			border: 5px solid #666;
 			margin-left: auto;
@@ -38,7 +32,7 @@
 		.sudoku-container td {
 			margin: 0;
 		}
-		.sudoku-container input {
+		.sudoku-container button {
 			width: 40px;
 			height: 40px;
 			text-align: center;
@@ -55,7 +49,6 @@
 			border: 5px solid #7edb37;
 		}
 
-
 		.bg1 {
 			background: #ccc;
 		}
@@ -63,7 +56,19 @@
 		.bg2 {
 			background: #fff;
 		}
-
+		.bg-picked {
+			background: #ff0000;
+		}
+		.sudoku-container button .button1 {
+		    background-color: white; 
+		    color: black; 
+		    border: 2px solid #ff0;
+		}
+		  .alert {
+    background-color: yellow;
+    width:100%;
+    height: 30px;
+  }
    </style>
    <body>
       <div id="root">
@@ -90,14 +95,27 @@
 		      count: 0
 		    }
 		  },
-		  props: ['r','c','i'],
-		  template: '<input maxlength="1" :value="(i>0) ? i : null" :readonly="(i>0) ? true : false">',
+
+		  	props: ['r','c','i'],
+		  	template: '<button type="button" v-on:click="whopos(r,c)" v-on:mouseover = "changename()">{{(i>0) ? i : null}}</button>',
+		  	methods: {
+		  		topopup: function(i){
+		  			alert(i);
+		  		},
+		  		whopos: function(r,c){
+		  			alert(r+" "+c)
+		  		},
+		  		changename: function(){
+
+		  		}
+		  	}
 		});
 
 		var app = new Vue({
 			el: '#root',
 
 			data:{
+			   isActive: false,	
 			   grids: [
 						[ 0, 9, 0, 0, 0, 0, 8, 5, 3 ],
 						[ 0, 0, 0, 8, 0, 0, 0, 0, 4 ],
@@ -115,10 +133,9 @@
 			   get_bg : function(rows,cols) {
 			      return ((( (cols>2&&cols<6)||(rows>2&&rows<6) )&&( (cols<3||cols>5)||(rows<3||rows>5) )) ? "bg1" : "bg2");
 			   }
-			},
+			}
+
 		});
-
-
 
       </script>
 
