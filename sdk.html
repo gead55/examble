@@ -64,7 +64,7 @@
 		    color: black; 
 		    border: 2px solid #ff0;
 		}
-		  .alert {
+		  .active {
     background-color: yellow;
     width:100%;
     height: 30px;
@@ -82,6 +82,7 @@
          	</tr>         	
          	</tbody>
          </table>
+         <div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }">Hello</div>
 
       </div>
 
@@ -92,21 +93,29 @@
 		Vue.component('cube', {
 		  data: function () {
 		    return {
-		      count: 0
+		      count: 0,
+		      codeColor: 'red'
 		    }
 		  },
 
 		  	props: ['r','c','i'],
-		  	template: '<button type="button" v-on:click="whopos(r,c)" v-on:mouseover = "changename()">{{(i>0) ? i : null}}</button>',
+		  	template: '<button type="button" v-bind:style="{ color: codeColor }" v-on:click="topopup(i)" v-on:mouseover="changename()" v-on:mouseout="set_color()">{{(i>0) ? i : null}}</button>',
 		  	methods: {
 		  		topopup: function(i){
 		  			alert(i);
 		  		},
 		  		whopos: function(r,c){
-		  			alert(r+" "+c)
+		  			alert(r+" "+c);
 		  		},
 		  		changename: function(){
-
+		  			this.codeColor = 'blue';
+		  			// alert(this.r)
+		  			// console.log("my object: %o", this.codeColor)
+		  		},
+		  		set_color: function(){
+		  			this.codeColor = 'red';
+		  			f = app.grids.indexOf(4);
+		  			console.log(f);
 		  		}
 		  	}
 		});
@@ -115,7 +124,8 @@
 			el: '#root',
 
 			data:{
-			   isActive: false,	
+				activeColor: 'red',
+  				fontSize: 30,
 			   grids: [
 						[ 0, 9, 0, 0, 0, 0, 8, 5, 3 ],
 						[ 0, 0, 0, 8, 0, 0, 0, 0, 4 ],
