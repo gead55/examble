@@ -77,12 +77,17 @@
          	<tbody>
          	<tr v-for="(line, row) in grids">
          		<td v-for="item, col in line" :class="get_bg(row,col)">
-         			<cube :r="row" :c="col" :i="item" ></cube>
+         			<cube :r="row" :c="col" :i="item" >
+         				
+
+         			</cube>
          		</td>
          	</tr>         	
          	</tbody>
          </table>
          <div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }">Hello</div>
+         				<span>{{ price | capitalize }}</span>
+         				<input v-model="price">
 
       </div>
 
@@ -94,38 +99,48 @@
 		  data: function () {
 		    return {
 		      count: 0,
-		      codeColor: 'red'
+		      codeColor: 'red',
 		    }
 		  },
 
 		  	props: ['r','c','i'],
-		  	template: '<button type="button" v-bind:style="{ color: codeColor }" v-on:click="topopup(i)" v-on:mouseover="changename()" v-on:mouseout="set_color()">{{(i>0) ? i : null}}</button>',
+		  	template: '<button id="ic" type="button" v-bind:style="{ color: codeColor }" v-on:click="(i>0) ? topopup(this._uid) : whopos(r,c)" v-on:mouseover="overcolor()" v-on:mouseout="outcolor()">{{(i>0) ? i : null}}</button>',
 		  	methods: {
-		  		topopup: function(i){
-		  			alert(i);
+		  		topopup: function(){
+		  			// alert(this._uid);
+		  			//this.codeColor = 'yellow';
+		  			// pp = "my-component-label-"+this._uid;
+		  			// alert(pp);
+		  			// this._uid = pp;
+
 		  		},
 		  		whopos: function(r,c){
 		  			alert(r+" "+c);
 		  		},
-		  		changename: function(){
+		  		overcolor: function(){
 		  			this.codeColor = 'blue';
 		  			// alert(this.r)
 		  			// console.log("my object: %o", this.codeColor)
 		  		},
-		  		set_color: function(){
+		  		outcolor: function(){
 		  			this.codeColor = 'red';
 		  			f = app.grids.indexOf(4);
 		  			console.log(f);
 		  		}
 		  	}
 		});
-
+Vue.filter('capitalize', function (value) {
+  if (!value) return ''
+  value = value.toString()
+  return value.split('').reverse().join('')
+})
 		var app = new Vue({
 			el: '#root',
-
 			data:{
 				activeColor: 'red',
   				fontSize: 30,
+			  price: 'hello55',
+
 			   grids: [
 						[ 0, 9, 0, 0, 0, 0, 8, 5, 3 ],
 						[ 0, 0, 0, 8, 0, 0, 0, 0, 4 ],
@@ -144,7 +159,6 @@
 			      return ((( (cols>2&&cols<6)||(rows>2&&rows<6) )&&( (cols<3||cols>5)||(rows<3||rows>5) )) ? "bg1" : "bg2");
 			   }
 			}
-
 		});
 
       </script>
