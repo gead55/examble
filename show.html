@@ -1,0 +1,71 @@
+<html>
+   <head>
+      <title>SoDuKu with Vue</title>
+   <link rel="stylesheet" href="main.css">
+   <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+   </head>
+   <body>
+      <div id="app">
+         <p :style="styObj">What's your car : {{packUp}}</p>
+         <div v-for="car, index in cars">
+            <span @click="showUp(car)">{{car}}</span>
+            **************
+            <comp :item="car" 
+            @whats = "showUp"
+            ></comp>
+         </div>
+      </div>
+      <script type="text/javascript">
+         Vue.component('comp',{
+            props: ['item','index'],
+            template:`<button type="button" @click="whatis(item)"><p :id="this._uid" :style="styObj">{{item}}</p></button>`,
+            data: function(){
+               return {
+                  styObj: {
+                     backgroundColor: 'yellow',
+                  }
+               }
+            },
+            methods:{
+               whatis: function(i){
+                  console.log(i)
+                  if(this.styObj['backgroundColor'] == 'green'){
+                     var dom = document.getElementById('2')
+                     dom.style.color = "white"
+                     console.log(dom)
+                     this.styObj['backgroundColor'] = 'red'
+                  }
+                  else
+                  {
+                     this.styObj['backgroundColor'] = 'green'
+                  }
+
+                  this.$emit('whats',i)
+               },
+               sampleFunction(i){
+                  alert("You have selected: " + i)
+               }
+            }
+         })
+         var app = new Vue({
+            el: "#app",
+            data: { 
+               styObj: {
+                  backgroundColor: 'gray',
+                  color: 'red',
+                  fontSize: '30px',
+               },
+               packUp: 'MotorCycle',
+               cars: ['BMW','Audi',"Benz","Toyota","Honda","Mazda"]
+            },
+            methods:{
+               showUp: function(value){
+                  // console.log(value)
+                  this.packUp = value
+               }
+            }
+         })
+         "use strict"
+      </script>
+   </body>
+</html>

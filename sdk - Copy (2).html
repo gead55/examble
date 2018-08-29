@@ -1,0 +1,113 @@
+<html>
+   <head>
+      <title>SoDuKu with Vue</title>
+   <link rel="stylesheet" href="main.css">
+      <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+
+   </head>
+
+   <body>
+      <div id="root">
+
+         <table class="sudoku-container">
+         	<tbody>
+         	<tr v-for="(line, row) in grids">
+         		<td v-for="item, col in line" :class="get_bg(row,col)">
+         			<cube 
+         			:row="row"
+         			:col="col"
+         			:item="item"
+         			@pickup="set_color"
+         			>
+         			</cube>
+         		</td>
+         	</tr>         	
+         	</tbody>
+         </table>
+<!--          <div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }">Hello</div> -->
+
+      </div>
+
+      
+      <script type="text/javascript">
+
+		Vue.component('cube', {
+			props:{
+				row: Number,
+				col: Number,
+				item: Number,
+			},
+		  	data: function () {
+			    return {
+			      id: 'cube_'+this._uid,
+			      value: this.item,
+			  	  codeColor: 'red',
+				  now_no: 0,
+			    }
+		  	},
+		  	template: `<button :id="'id'+this._uid.toString()" type="button" v-bind:style="{ color: codeColor }" v-on:click="(item>0) ? filteredData : set_no(row,col)">{{ item | show_no }}</button>`,
+		  	methods: {
+		  		get_no: function(){
+		  			this.codeColor = 'green'
+		  			this.now_no = this.value
+		  			// console.log(this.id)
+		  		},
+		  		set_no: function(r,c){
+		  			alert(this._uid+" "+r+" "+c);
+		  		},
+		  	},
+			filters: {
+				show_no: function (value) {
+				  if(value > 0)
+				  	return value
+				  else
+				  	return null
+				},
+				on_selected: function (value) {
+
+				}
+			},
+			computed: {
+				filteredData: function(i){
+					var cube = i
+					console.log(cube)
+					// console.log(document.getElementById(cube))
+					this.$emit('pickup')
+				}
+			}
+		});
+
+		var app = new Vue({
+			el: '#root',
+			data:{
+				activeColor: 'red',
+  				fontSize: 30,
+
+			  	selectnumber: 0,
+			   	grids: [
+						[ 0, 9, 0, 0, 0, 0, 8, 5, 3 ],
+						[ 0, 0, 0, 8, 0, 0, 0, 0, 4 ],
+						[ 0, 0, 8, 2, 0, 3, 0, 6, 9 ],
+						[ 5, 7, 4, 0, 0, 2, 0, 0, 0 ],
+						[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+						[ 0, 0, 0, 9, 0, 0, 6, 3, 7 ],
+						[ 9, 4, 0, 1, 0, 8, 5, 0, 0 ],
+						[ 7, 0, 0, 0, 0, 6, 0, 0, 0 ],
+						[ 6, 8, 2, 0, 0, 0, 0, 9, 0 ] 
+					  ],
+			},
+
+			methods: {
+			   get_bg : function(rows,cols) {
+			      return ((( (cols>2&&cols<6)||(rows>2&&rows<6) )&&( (cols<3||cols>5)||(rows<3||rows>5) )) ? "bg1" : "bg2");
+			   },
+			   set_color: function(){
+			   	  this.activeColor = 'blue'
+			   }
+			}
+		});
+
+      </script>
+
+   </body>
+</html>

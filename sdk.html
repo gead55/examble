@@ -1,147 +1,84 @@
 <html>
    <head>
       <title>SoDuKu with Vue</title>
+   <link rel="stylesheet" href="main.css">
+      <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+
    </head>
-   <style type="text/css">
-		body {
-			margin: 0;
-			padding: 0;
-		}
-
-		button, h1 {
-			margin-left: auto;
-			margin-right: auto;
-			text-align: center;
-		}
-
-		input { cursor: pointer; }
-
-		.sudoku-menu {
-			width: 50%;
-			text-align: center;
-			margin-left: auto;
-			margin-right: auto;
-		}
-
-		.sudoku-container {
-			border: 5px solid #666;
-			margin-left: auto;
-			margin-right: auto;
-		}
-
-		.sudoku-container td {
-			margin: 0;
-		}
-		.sudoku-container button {
-			width: 40px;
-			height: 40px;
-			text-align: center;
-			font-size: 20px;
-			padding: 0;
-			border: 1px #ccc solid;
-			background: transparent;
-		}
-
-		.sudoku-container .sudoku-input-error {
-			background: #ffc9d7;
-		}
-		.sudoku-container.valid-matrix {
-			border: 5px solid #7edb37;
-		}
-
-		.bg1 {
-			background: #ccc;
-		}
-
-		.bg2 {
-			background: #fff;
-		}
-		.bg-picked {
-			background: #ff0000;
-		}
-		.sudoku-container button .button1 {
-		    background-color: white; 
-		    color: black; 
-		    border: 2px solid #ff0;
-		}
-		  .active {
-    background-color: yellow;
-    width:100%;
-    height: 30px;
-  }
-   </style>
+   <script type="text/x-template" id="grid-template">
+   	   	<table class="sudoku-container">
+         	<tbody>
+         	<tr v-for="(line, row) in data">
+         		<td v-for="item, col in line" :class="get_bg(row,col)">
+					<button :id="this._uid" type="button" :style="styObj" @click="(item>0) ? on_selected(item) : set_no(row,col)">
+						{{ item | show_no }}
+					</button>
+         		</td>
+         	</tr>
+         </tbody>
+        </table>
+   </script>
    <body>
       <div id="root">
-
-         <table class="sudoku-container">
-         	<tbody>
-         	<tr v-for="(line, row) in grids">
-         		<td v-for="item, col in line" :class="get_bg(row,col)">
-         			<cube :r="row" :c="col" :i="item" >
-         				
-
-         			</cube>
-         		</td>
-         	</tr>         	
-         	</tbody>
-         </table>
-         <div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }">Hello</div>
-         				<span>{{ price | capitalize }}</span>
-         				<input v-model="price">
-
+      	<cube 
+      	:data="grids"
+      	:selectnumber="selectnumber"
+      	@pickup="set_color"
+      	></cube>
       </div>
-
-      <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
       
       <script type="text/javascript">
+      	Vue.component('cube',{
+      		template: '#grid-template',
+			props:{
+			    data: Array,
+				selectnumber: Number,
 
-		Vue.component('cube', {
-		  data: function () {
-		    return {
-		      count: 0,
-		      codeColor: 'red',
-		    }
-		  },
+			},
+      		data: function(){
+      			return {
+					styObj:{
+						color: 'blue',
+	  					fontSize: 30,
+					}
+      			}
+      		},
+      		filters: {
+				show_no: function (value) {
+				  if(value > 0)
+				  	return value
+				  else
+				  	return null
+				},
+				on_selected: function (value) {
+      				console.log(value)
 
-		  	props: ['r','c','i'],
-		  	template: '<button id="ic" type="button" v-bind:style="{ color: codeColor }" v-on:click="(i>0) ? topopup(this._uid) : whopos(r,c)" v-on:mouseover="overcolor()" v-on:mouseout="outcolor()">{{(i>0) ? i : null}}</button>',
-		  	methods: {
-		  		topopup: function(){
-		  			// alert(this._uid);
-		  			//this.codeColor = 'yellow';
-		  			// pp = "my-component-label-"+this._uid;
-		  			// alert(pp);
-		  			// this._uid = pp;
+				}
+			},
+      		computed: {
+      			filteredData: function(i){
+      				// console.log(this.grids)
+      				// console.log('pickup')
+					this.$emit('pickup',this._uid)
 
-		  		},
-		  		whopos: function(r,c){
-		  			alert(r+" "+c);
-		  		},
-		  		overcolor: function(){
-		  			this.codeColor = 'blue';
-		  			// alert(this.r)
-		  			// console.log("my object: %o", this.codeColor)
-		  		},
-		  		outcolor: function(){
-		  			this.codeColor = 'red';
-		  			f = app.grids.indexOf(4);
-		  			console.log(f);
-		  		}
-		  	}
-		});
-Vue.filter('capitalize', function (value) {
-  if (!value) return ''
-  value = value.toString()
-  return value.split('').reverse().join('')
-})
+      			}
+      		},
+      		methods:{
+      			get_bg : function(rows,cols) {
+			      return ((( (cols>2&&cols<6)||(rows>2&&rows<6) )&&( (cols<3||cols>5)||(rows<3||rows>5) )) ? "bg1" : "bg2");
+			   }
+      		}
+      	})
+
 		var app = new Vue({
 			el: '#root',
 			data:{
-				activeColor: 'red',
-  				fontSize: 30,
-			  price: 'hello55',
-
-			   grids: [
+				styObj:{
+					color: 'red',
+  					fontSize: 30,
+				},
+			  	selectnumber: 0,
+			   	grids: [
 						[ 0, 9, 0, 0, 0, 0, 8, 5, 3 ],
 						[ 0, 0, 0, 8, 0, 0, 0, 0, 4 ],
 						[ 0, 0, 8, 2, 0, 3, 0, 6, 9 ],
@@ -155,12 +92,13 @@ Vue.filter('capitalize', function (value) {
 			},
 
 			methods: {
-			   get_bg : function(rows,cols) {
-			      return ((( (cols>2&&cols<6)||(rows>2&&rows<6) )&&( (cols<3||cols>5)||(rows<3||rows>5) )) ? "bg1" : "bg2");
+			   set_color: function(i){
+      			  console.log(i)
+
 			   }
 			}
 		});
-
+"use strict"
       </script>
 
    </body>
