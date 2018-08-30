@@ -10,7 +10,11 @@
          	<tbody>
          	<tr v-for="(line, row) in data">
          		<td v-for="item, col in line" :class="get_bg(row,col)">
-					<button :id="this._uid" type="button" :style="styObj" @click="(item>0) ? on_selected(item) : set_no(row,col)">
+					<button 
+					type="button"
+					:id="cubeID(row,col)" 
+					:style="styObj" 
+					@click="(item>0) ? on_selected(item) : set_no(row,col)">
 						{{ item | show_no }}
 					</button>
          		</td>
@@ -20,7 +24,7 @@
    </script>
    <body>
       <div id="root">
-      	<cube 
+      	<cube
       	:data="grids"
       	:selectnumber="selectnumber"
       	@pickup="set_color"
@@ -33,7 +37,6 @@
 			props:{
 			    data: Array,
 				selectnumber: Number,
-
 			},
       		data: function(){
       			return {
@@ -50,33 +53,58 @@
 				  else
 				  	return null
 				},
-				on_selected: function (value) {
-      				console.log(value)
 
-				}
 			},
       		computed: {
       			filteredData: function(i){
-      				// console.log(this.grids)
-      				// console.log('pickup')
-					this.$emit('pickup',this._uid)
 
+      			},
+      			created: function(){
+      				this.styObj['color'] = 'blue'
       			}
       		},
       		methods:{
+      			cubeID: function(row,col){
+      				return (row*9)+col
+      			},
+				set_no: function(r,c){
+		  			alert(this._uid+" "+r+" "+c);
+		  		},
       			get_bg : function(rows,cols) {
 			      return ((( (cols>2&&cols<6)||(rows>2&&rows<6) )&&( (cols<3||cols>5)||(rows<3||rows>5) )) ? "bg1" : "bg2");
-			   }
+			    },
+				on_selected: function (elem) {
+					this.$emit('pickup',elem)
+
+      				var pos = []
+      				var longarray = []
+      				var data = this.data
+				    data.forEach(function (n) {
+						longarray = longarray.concat(n);
+				    }) 
+				    longarray.forEach(function (v,k) {
+				    	var dom = document.getElementById(v.toString())
+				    	if(v == elem) pos.push(k)
+				    })
+				    // console.log(pos)
+				    pos.forEach(function(i){
+				    	this.created()
+						var dom = document.getElementById(i.toString())
+
+						dom.style.color = "red"
+						// this.styObj['backgroundColor'] = 'yellow'
+				    })
+				}
       		}
       	})
 
 		var app = new Vue({
 			el: '#root',
 			data:{
-				styObj:{
-					color: 'red',
-  					fontSize: 30,
-				},
+				// styObj:{
+				// 	color: 'red',
+  		// 			fontSize: 30,
+				// },
 			  	selectnumber: 0,
 			   	grids: [
 						[ 0, 9, 0, 0, 0, 0, 8, 5, 3 ],
@@ -92,9 +120,9 @@
 			},
 
 			methods: {
-			   set_color: function(i){
-      			  console.log(i)
-
+			   	set_color: function(i){
+					// this.styObj['color'] = 'blue'
+	      			console.log("set_color"+i)
 			   }
 			}
 		});
