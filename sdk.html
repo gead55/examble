@@ -27,6 +27,7 @@
       	<cube
       	:data="grids"
       	:selectnumber="selectnumber"
+      	:forceColor="styObj"
       	@pickup="set_color"
       	></cube>
       </div>
@@ -58,17 +59,19 @@
       		computed: {
       			filteredData: function(i){
 
-      			},
-      			created: function(){
-      				this.styObj['color'] = 'blue'
       			}
       		},
       		methods:{
+
       			cubeID: function(row,col){
       				return (row*9)+col
       			},
 				set_no: function(r,c){
-		  			alert(this._uid+" "+r+" "+c);
+					// var o = Object.assign(this.$data['styObj']['color'])
+					console.log(this.$data['styObj']['color'])
+					// Object.assign(this.$data, this.$options.data.apply(this))
+
+		  			// alert(this._uid+" "+r+" "+c);
 		  		},
       			get_bg : function(rows,cols) {
 			      return ((( (cols>2&&cols<6)||(rows>2&&rows<6) )&&( (cols<3||cols>5)||(rows<3||rows>5) )) ? "bg1" : "bg2");
@@ -88,12 +91,14 @@
 				    })
 				    // console.log(pos)
 				    pos.forEach(function(i){
-				    	this.created()
 						var dom = document.getElementById(i.toString())
 
 						dom.style.color = "red"
 						// this.styObj['backgroundColor'] = 'yellow'
 				    })
+					app.$data['styObj']['color'] = 'yellow'
+					console.log(app.$data['styObj']['color'])
+
 				}
       		}
       	})
@@ -101,10 +106,10 @@
 		var app = new Vue({
 			el: '#root',
 			data:{
-				// styObj:{
-				// 	color: 'red',
-  		// 			fontSize: 30,
-				// },
+				styObj:{
+					color: 'pink',
+  					fontSize: 30,
+				},
 			  	selectnumber: 0,
 			   	grids: [
 						[ 0, 9, 0, 0, 0, 0, 8, 5, 3 ],
@@ -121,8 +126,9 @@
 
 			methods: {
 			   	set_color: function(i){
+			   		console.log(this.styObj)
+	      			// console.log("set_color"+i)
 					// this.styObj['color'] = 'blue'
-	      			console.log("set_color"+i)
 			   }
 			}
 		});
