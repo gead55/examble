@@ -10,11 +10,11 @@
          	<tbody>
          	<tr v-for="(line, row) in data">
          		<td v-for="item, col in line" :class="get_bg(row,col)">
-					<button 
+					<button name="cube"
 					type="button"
-					:id="cubeID(row,col)" 
+					:id="cubeID(row,col)"
 					:style="styObj" 
-					@click="(item>0) ? on_selected(item) : set_no(row,col)">
+					@click="check_cube(row,col)">
 						{{ item | show_no }}
 					</button>
          		</td>
@@ -26,13 +26,13 @@
       <div id="root">
       	<cube
       	:data="grids"
-      	:selectnumber="selectnumber"
       	:forceColor="styObj"
       	@pickup="set_color"
       	></cube>
       </div>
       
       <script type="text/javascript">
+      	alert(Math.floor(Math.random() * 10))
       	Vue.component('cube',{
       		template: '#grid-template',
 			props:{
@@ -62,43 +62,51 @@
       			}
       		},
       		methods:{
-
+      			check_cube: function(r,c){
+      				var v = this.cubeID(r,c)
+					var dom = document.getElementById(v)
+					var n = dom.innerHTML.trim()
+      				if(n != ""){
+      					this.on_selected(n)
+      				}else{
+      					this.set_no(r,c)
+      				}
+      			},
       			cubeID: function(row,col){
       				return (row*9)+col
       			},
 				set_no: function(r,c){
-					// var o = Object.assign(this.$data['styObj']['color'])
-					console.log(this.$data['styObj']['color'])
-					// Object.assign(this.$data, this.$options.data.apply(this))
+					var dom = document.getElementById(this.cubeID(r,c))
+					dom.style.color = "red"
+					dom.innerHTML = app.$data.grids[r][c] = this.$data.selectnumber
 
-		  			// alert(this._uid+" "+r+" "+c);
 		  		},
       			get_bg : function(rows,cols) {
 			      return ((( (cols>2&&cols<6)||(rows>2&&rows<6) )&&( (cols<3||cols>5)||(rows<3||rows>5) )) ? "bg1" : "bg2");
 			    },
 				on_selected: function (elem) {
-					this.$emit('pickup',elem)
-
+					// this.$emit('pickup',elem)
+					this.$data.selectnumber = elem
+					console.log("selectnumber : "+this.$data.selectnumber.toString())
       				var pos = []
       				var longarray = []
       				var data = this.data
+
 				    data.forEach(function (n) {
 						longarray = longarray.concat(n);
 				    }) 
 				    longarray.forEach(function (v,k) {
-				    	var dom = document.getElementById(v.toString())
+				    	var dom = document.getElementById(k)
+				    	var color = app.$data['styObj']['color']
+						dom.style.color = color // clean all
+
 				    	if(v == elem) pos.push(k)
 				    })
 				    // console.log(pos)
 				    pos.forEach(function(i){
-						var dom = document.getElementById(i.toString())
-
+						var dom = document.getElementById(i)
 						dom.style.color = "red"
-						// this.styObj['backgroundColor'] = 'yellow'
 				    })
-					app.$data['styObj']['color'] = 'yellow'
-					console.log(app.$data['styObj']['color'])
-
 				}
       		}
       	})
@@ -107,7 +115,7 @@
 			el: '#root',
 			data:{
 				styObj:{
-					color: 'pink',
+					color: 'blue',
   					fontSize: 30,
 				},
 			  	selectnumber: 0,
@@ -126,7 +134,7 @@
 
 			methods: {
 			   	set_color: function(i){
-			   		console.log(this.styObj)
+			   		// console.log(this.styObj)
 	      			// console.log("set_color"+i)
 					// this.styObj['color'] = 'blue'
 			   }

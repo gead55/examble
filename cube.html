@@ -1,0 +1,163 @@
+<html>
+   <head>
+      <title>SoDuKu with Vue</title>
+   <link rel="stylesheet" href="main.css">
+      <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+
+   </head>
+   <body>
+      <div id="root">
+
+      </div>
+      
+      <script type="text/javascript">
+/**
+ * Shuffles array in place.
+ * @param {Array} a items An array containing the items.
+ */
+function shuffle(a) {
+    var j, x, i;
+    for (i = a.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        x = a[i];
+        a[i] = a[j];
+        a[j] = x;
+    }
+    return a;
+} 
+
+builtCube();
+
+function builtCube(){
+	// var n = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ];
+	// var c = shuffle(n);
+	var NUM = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ];
+	var cube = [
+				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+		  	   ];
+	var i = 0;
+	var r = 0;
+	var c = 0;
+		// console.log(i);
+		// console.log(r);
+		// console.log(c);
+
+// 	while (r < 10) {
+//      	console.log("The number is " + r);
+
+//     r++;
+// }
+	while (r < 1) {
+     	// console.log("The line number is " + r);
+
+		var myArray = NUM;
+			myArray.forEach(function (n) {
+				    console.log(n);
+
+					// myArray.splice(n, 1);
+				    console.log(myArray);
+		    }) 
+		// myArray.forEach(function(v,k)){
+		// 	var rand = myArray[Math.floor(Math.random() * myArray.length-1)];
+
+		// 	console.log(v+" : "+k+" : "+rand);
+  // 			myArray.splice(rand, 1);
+		// 		console.log(myArray);
+
+
+		// }
+//     	for (c=8 ; c>=0 ; c--) {
+//     		var l = myArray.length-1;
+// 				console.log(myArray);
+
+// 			var rand = myArray[Math.floor(Math.random() * l)];
+// console.log("col: "+c +",len: "+l+",rand: "+ rand +",value: "+myArray[rand])
+// 			if( (l > rand) && myArray.indexOf(rand) > -1){
+// 				cube[r][c] = rand;
+//   				myArray.splice(rand, 1);
+
+// 				// console.log(myArray);
+// 			}
+// 			// cube[r][c].splice(c,1) = rand;
+// 		// console.log(c);
+
+// 		}
+	    r++;
+	}
+		console.log(cube);
+var array = [2, 5, 9];
+console.log(array)
+var index = array.indexOf(5);
+if (index > -1) {
+  array.splice(index, 1);
+}
+// array = [2, 9]
+console.log(array);
+	// console.log(Math.floor(Math.random()*9));
+ //    for (i = 9; i > 0; i--) {
+	// 	cube[r] = Math.floor(Math.random()*9)
+	// 	l = cube.length;
+	// 	r++;
+	// }
+	// console.log(cube);
+
+}
+      	// alert(Math.floor(Math.random() * 10))
+// var myArray = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ];
+// var rand = myArray[Math.floor(Math.random() * myArray.length)];
+// 	console.log(rand);
+
+// var o = shuffle(myArray);
+// var items = myArray;
+// var o = items[Math.floor(Math.random()*items.length)];
+// console.log(o);
+			   // var cube = [
+						// [ 0, 9, 0, 0, 0, 0, 8, 5, 3 ],
+						// [ 0, 0, 0, 8, 0, 0, 0, 0, 4 ],
+						// [ 0, 0, 8, 2, 0, 3, 0, 6, 9 ],
+						// [ 5, 7, 4, 0, 0, 2, 0, 0, 0 ],
+						// [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+						// [ 0, 0, 0, 9, 0, 0, 6, 3, 7 ],
+						// [ 9, 4, 0, 1, 0, 8, 5, 0, 0 ],
+						// [ 7, 0, 0, 0, 0, 6, 0, 0, 0 ],
+						// [ 6, 8, 2, 0, 0, 0, 0, 9, 0 ] 
+					 //  ];
+// console.log(cube);
+
+
+		var app = new Vue({
+			el: '#root',
+			data:{
+			  	selectnumber: 0,
+			   	grids: [
+						[ 0, 9, 0, 0, 0, 0, 8, 5, 3 ],
+						[ 0, 0, 0, 8, 0, 0, 0, 0, 4 ],
+						[ 0, 0, 8, 2, 0, 3, 0, 6, 9 ],
+						[ 5, 7, 4, 0, 0, 2, 0, 0, 0 ],
+						[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+						[ 0, 0, 0, 9, 0, 0, 6, 3, 7 ],
+						[ 9, 4, 0, 1, 0, 8, 5, 0, 0 ],
+						[ 7, 0, 0, 0, 0, 6, 0, 0, 0 ],
+						[ 6, 8, 2, 0, 0, 0, 0, 9, 0 ] 
+					  ],
+			},
+			methods:{
+				random: function(ignor){
+					return Math.floor(Math.random() * 10)
+				}
+			}
+
+		});
+"use strict"
+      </script>
+
+   </body>
+</html>
