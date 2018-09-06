@@ -1,0 +1,65 @@
+<html>
+   <head>
+      <title>SoDuKu with Vue</title>
+   <link rel="stylesheet" href="main.css">
+      <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+
+   </head>
+   <body>
+      <div id="root">
+
+      </div>
+      
+      <script type="text/javascript">
+		var vm = new Vue({
+		  el: '#root',
+		  data: {
+		    a: 1,
+			NUM: [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+
+		    grids: [
+						[ 0, 9, 0, 0, 0, 0, 8, 5, 3 ],
+						[ 0, 0, 0, 8, 0, 0, 0, 0, 4 ],
+						[ 0, 0, 8, 2, 0, 3, 0, 6, 9 ],
+						[ 5, 7, 4, 0, 0, 2, 0, 0, 0 ],
+						[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+						[ 0, 0, 0, 9, 0, 0, 6, 3, 7 ],
+						[ 9, 4, 0, 1, 0, 8, 5, 0, 0 ],
+						[ 7, 0, 0, 0, 0, 6, 0, 0, 0 ],
+						[ 6, 8, 2, 0, 0, 0, 0, 9, 0 ] 
+					  ],
+		  },
+
+		  methods:{
+			randomCube: function(){
+				// var NUM = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+				var r = 1;
+				while(r > 0){
+					var rand = 0
+					var n = this.NUM
+
+					n.forEach(function(v,k){
+						rand = Math.floor(Math.random() * n.length)
+						console.log("before change : "+vm.a)
+						vm.a = n.splice(rand,1)
+						// this.grids[0][k] = rand
+						console.log(v+" : "+k+" : "+rand)
+
+					})
+					r--;
+				}
+			}
+		  },
+			watch: {
+				'a': function (val, oldVal) {
+					console.log('The counter has changed!')
+				}
+			}
+		})
+		vm.a = 2 // -> new: 2, old: 1
+		vm.randomCube()
+"use strict"
+      </script>
+
+   </body>
+</html>

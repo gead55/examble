@@ -1,0 +1,74 @@
+<html>
+   <head>
+      <title>SoDuKu with Vue</title>
+   <link rel="stylesheet" href="main.css">
+      <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+
+   </head>
+   <body>
+      <div id="root">
+      </div>
+      
+      <script type="text/javascript">
+var vm = new Vue({
+  el: '#root', 
+
+data: function ()  {
+    return {
+	      	counter: 0,
+
+		cube: [
+				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+		  	   ],
+       questions: []
+    }
+},
+methods: {
+    foo() {
+      var r = 0
+      while(r < 1){
+          var c = 0
+          var n = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+          var tmp = n
+          var nx = []
+          while(c < 9){
+            var v = Math.floor(Math.random()*(tmp.length))
+            var value = tmp[v]
+            console.log(v+" value:"+value+" len:"+tmp.length)
+            // console.log(v+":"+nx[v])
+            nx[nx.length] = c
+            tmp.splice(v,1)
+            console.log(tmp)
+
+            this.setter(r,c,value)
+            // console.log(v+":"+nx[v])
+            c++
+          }
+          console.log(nx)
+        r++
+      }
+      console.log(this.cube)
+    },
+    setter: function(r,c,v) {
+
+      this.cube[r][c] = v
+    } 
+}
+
+});
+
+vm.foo();
+
+"use strict"
+      </script>
+
+   </body>
+</html>
