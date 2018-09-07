@@ -16,75 +16,58 @@ var vm = new Vue({
 data: function ()  {
     return {
 	    counter: 0,
+      pick: [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
 		  cube: [
-				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
 		  ],
       conflict: []
     }
 },
 methods: {
-    foo() {
-      var r = 0
-      while(r < 9){
-          this.counter = 0
-          var n = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
-          var tmp = n
-          while(this.counter < 9){
-            var index = Math.floor(Math.random()*(tmp.length))
-            var value = tmp[index]
-            console.log(index+" value:"+value+" len:"+tmp.length)
-            var isConflict = this.setter(r,this.counter,value)
-            if(isConflict){
-              tmp.splice(index,1)
-            }
-              this.counter++
-            console.log(tmp)
-          }
-          console.log(this.conflict)
-        r++
-      }
-      console.log(this.cube)
-    },
-    setter: function(r,c,v) {
-      var isConflict = this.checkConflict(r,c,v)
-      if(isConflict){
-        this.cube[r][c] = v
-      }else{
-        var cf = this.conflict
-        this.conflict[this.conflict.length] = v
-      }
-      return isConflict
-    },
-    checkConflict: function(r,c,v){
-      var row = r
-      var col = c
-      while(row > -1){ // check rows
-        if(this.cube[row][c] == v){
-          return false
+   shuffle: function() {
+    var len = 9
+    var row = 0
+    var tmp = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+
+    while(row < len){
+      var col = 0
+      var arr = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+
+      var p = Math.floor(Math.random()*tmp.length)
+      var v = tmp[p]
+      while(col < len){
+        var i = Math.floor(Math.random()*arr.length)
+        var run = arr[i]-1
+        if(this.cube[run][col] == 0){
+          this.cube[run][col] = v
         }
-        row--
+        arr.splice(i,1)
+        console.log("col : "+col+"::"+run+"::"+arr)
+        col++
       }
-      while(col > -1){ // check columns
-        if(this.cube[r][col] == v){
-          return false
-        }
-        col--
-      }
-      return true
+      tmp.splice(p,1)
+      console.log(row+"::"+v+"::"+tmp)
+      row++
     }
+    return true
+  },
+
 }
+
+
 
 });
 
-vm.foo();
+vm.shuffle();
+console.log(vm.cube);
 
 "use strict"
       </script>

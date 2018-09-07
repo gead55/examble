@@ -1,0 +1,140 @@
+<html>
+   <head>
+      <title>SoDuKu with Vue</title>
+   <link rel="stylesheet" href="main.css">
+      <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+
+   </head>
+   <body>
+      <div id="root">
+      </div>
+      
+      <script type="text/javascript">
+var vm = new Vue({
+  el: '#root', 
+
+data: function ()  {
+    return {
+	    counter: 0,
+		  cube: [
+				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+				[ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+		  ],
+      conflict: []
+    }
+},
+methods: {
+    array_diff: function(array1, array2) {
+      return array1.filter(function(elm) {
+        return array2.indexOf(elm) === -1;
+      })
+    },
+    foo() {
+
+      var r = 0
+      while(r < 9){
+      console.log(this.cube)
+
+          var c = 0
+          var n = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+          var tmp = n
+          var isConflict = false
+          while(c < 9){
+            // find & must don't same value in columns
+            var l = tmp.length
+            var cf = []
+            while(l > 0){
+              var index = Math.floor(Math.random()*l)
+              var v = tmp[index]
+              if(cf.length > 0){
+                var nx = this.array_diff(tmp,cf) // show diff in tmp
+                console.log("NX : "+nx)
+                if(tmp.length > 2){
+                  v = nx[Math.floor(Math.random()*nx.length)]
+                }else{
+                  
+                }
+                index = tmp.indexOf(v)
+              }
+              isConflict = this.checkConflict(r,c,v)
+              console.log("["+r+"]["+c+"]"+v+":"+isConflict)
+        // console.log("["+row+"]["+c+"]"+this.cube[row][c]+" == "+v)
+
+            // console.log(tmp)
+
+              if(isConflict){
+                console.log(v+" : "+tmp)
+                break;
+              }else{
+                cf[cf.length] = v
+              }
+              l--
+            }
+            // if(isConflict){
+              tmp.splice(index,1)
+              this.cube[r][c] = v
+            // }
+            c++
+            // console.log(tmp)
+          }
+          if(isConflict){
+            console.log(this.conflict)
+          }
+          else{
+            r = r-1
+            console.log("BOOOOOOOOOOOOM")
+
+          }
+        r++
+      }
+      console.log(this.cube)
+    },
+    // setter: function(r,c,v) {
+    //   var isConflict = this.checkConflict(r,c,v)
+    //   if(isConflict){
+    //     this.cube[r][c] = v
+    //   }else{
+    //     var cf = this.conflict
+    //     this.conflict[this.conflict.length] = v
+    //   }
+    //   return isConflict
+    // },
+    checkConflict: function(r,c,v){
+      var row = r
+      var col = c
+      while(row > -1){ // check columns
+        // console.log("["+row+"]["+c+"]"+this.cube[row][c]+" == "+v)
+
+        if(this.cube[row][c] == v){
+          this.conflict[this.conflict.length] = v
+          return false
+        }
+        row--
+      }
+      // while(col > -1){ // check rows
+      //   console.log(this.cube[r][col]+" == "+v)
+      //   if(this.cube[r][col] == v){
+      //     return false
+      //   }
+      //   col--
+      // }
+      return true
+    }
+}
+
+});
+
+vm.foo();
+
+"use strict"
+      </script>
+
+   </body>
+</html>
