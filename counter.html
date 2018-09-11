@@ -18,56 +18,90 @@ data: function ()  {
 	    counter: 0,
       pick: [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
 		  cube: [
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+        [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+        [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+        [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+        [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+        [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+        [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+        [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+        [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
 		  ],
+      metrix: [
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+      ],
       conflict: []
     }
 },
-methods: {
-   shuffle: function() {
-    var len = 9
-    var row = 0
-    var tmp = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
-
-    while(row < len){
-      var col = 0
-      var arr = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
-
-      var p = Math.floor(Math.random()*tmp.length)
-      var v = tmp[p]
-      while(col < len){
-        var i = Math.floor(Math.random()*arr.length)
-        var run = arr[i]-1
-        if(this.cube[run][col] == 0){
-          this.cube[run][col] = v
+  methods: {
+    shake: function() {
+      console.log(this.metrix[0].indexOf(9))
+    },
+    shuttle: function(){
+      var row = 0
+      var num = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+      while(row < 9){
+        var col = 0
+        var arr = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+        while(col < 9){
+          console.log(row+" : "+col)
+          var i = Math.floor(Math.random()*arr.length)
+          this.metrix[row][col] = arr[i]
+          arr.splice(i,1)
+          col++
         }
-        arr.splice(i,1)
-        console.log("col : "+col+"::"+run+"::"+arr)
-        col++
+        row++
       }
-      tmp.splice(p,1)
-      console.log(row+"::"+v+"::"+tmp)
-      row++
+    },
+    getArrayRow: function(r,c){
+      var tmp = []
+      var row = r
+      var col = c
+      while(col > -1){
+        tmp[tmp.length] = this.metrix[row][col]
+        col--
+      }      
+      row = r
+      col = c      
+      while(row > -1){
+        tmp[tmp.length] = this.metrix[row][col]
+        row--
+      }
+      return tmp
     }
-    return true
-  },
+  }
 
-}
 
 
 
 });
 
-vm.shuffle();
-console.log(vm.cube);
+function differenceOf2Arrays (array1, array2) {
+var temp = [];
+array1 = array1.toString().split(',').map(Number);
+array2 = array2.toString().split(',').map(Number);
+
+for (var i in array1) {
+if(array2.indexOf(array1[i]) === -1) temp.push(array1[i]);
+}
+for(i in array2) {
+if(array1.indexOf(array2[i]) === -1) temp.push(array2[i]);
+}
+// return temp.sort((a,b) => a-b);
+return temp;
+}
+// vm.shake();
+vm.shuttle();
+console.log(vm.metrix);
 
 "use strict"
       </script>

@@ -1,0 +1,97 @@
+<html>
+   <head>
+      <title>SoDuKu with Vue</title>
+   <link rel="stylesheet" href="main.css">
+      <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+
+   </head>
+   <body>
+      <div id="root">
+      </div>
+      
+      <script type="text/javascript">
+var vm = new Vue({
+  el: '#root', 
+
+data: function ()  {
+    return {
+	    counter: 0,
+      pick: [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+		  cube: [
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+		  ],
+      conflict: []
+    }
+},
+methods: {
+  shake: function() {
+    var len = 9
+    var row = 0
+    var tmp = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] // value random
+
+    while(row < len){
+      var col = 0
+      var arr = [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ] // position rows random
+
+      var p = Math.floor(Math.random()*tmp.length)
+      var v = tmp[p]
+      var pi = 0
+      while(col < len){
+        var i = Math.floor(Math.random()*arr.length)
+        var run = arr[i]
+        var pi = this.shuffle(run,col,v) // row position insert
+        // if(pi > -1){
+        // // //   run = pi
+        // // //   arr.splice(pi,1)
+        // //   var f = this.cube[run].indexOf(0) 
+        //   this.cube[i][col] = v
+        //   i = pi
+        // }
+        // else{
+          console.log("arr : "+arr+" | "+pi+" | ")
+          arr.splice(i,1)
+        //   console.log("col : "+col+"::"+run+"::"+arr+" | "+pi+" | ")
+        // }
+        col++
+      }
+      tmp.splice(p,1)
+      console.log(row+"::"+v+"::"+tmp)
+      row++
+    }
+    return true
+  },
+  shuffle: function(r,c,v){
+    // var pos = -1
+    // var x = 0
+    // var y = 0
+    if(this.cube[r][c] == 0){
+      this.cube[r][c] = v
+      return -1
+    }else{
+      return this.cube[r].indexOf(0)
+    }
+
+    // return pos
+  }
+}
+
+
+
+});
+
+vm.shake();
+console.log(vm.cube);
+
+"use strict"
+      </script>
+
+   </body>
+</html>
