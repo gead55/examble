@@ -47,21 +47,44 @@ data: function ()  {
       console.log(this.metrix[0].indexOf(9))
     },
     shuttle: function(){
+      var checked = true
       var row = 0
-      var num = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
-      while(row < 9){
+      var num = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+      while(row < 1){
         var col = 0
-        var arr = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
-        while(col < 9){
-          console.log(row+" : "+col)
-          var i = Math.floor(Math.random()*arr.length)
-          this.metrix[row][col] = arr[i]
-          arr.splice(i,1)
-          col++
+        var box = [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
+        var x = [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
+        var y = [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
+        var n = Math.floor(Math.random()*num.length)
+        var passed = true
+        var cunt = 0
+        while(passed){
+          // console.log(row+" : "+col)
+          var b = Math.floor(Math.random()*box.length)
+          var i = Math.floor(Math.random()*x.length)
+          var j = Math.floor(Math.random()*y.length)
+
+          if(checked){
+            var bb = (box[b]%3)
+            var bx = Math.floor(box[b]/3)+(bb*3)
+            var px = x[i]%3
+            var py = y[j]%3
+            this.metrix[(bb*3)+px][(bb*3)+py] = (cunt+1)
+            console.log(cunt+":"+box[b]+":"+bx+":"+px+":"+py)
+            box.splice(b,1)
+            x.splice(i,1)
+            y.splice(j,1)
+            cunt++
+          }
+          if(cunt === 9){
+            passed = false
+          }
         }
+        num.splice(n,1)
         row++
       }
     },
+
     getArrayRow: function(r,c){
       var tmp = []
       var row = r
