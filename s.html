@@ -1,0 +1,74 @@
+<html>
+<body>
+<script type="text/javascript">
+	var number = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+	var cube = [
+				[0, 0, 0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0, 0, 0],
+			   ];
+	var sdk = [
+				[1, 2, 3, 4, 5, 6, 7, 8, 9],
+				[1, 2, 3, 4, 5, 6, 7, 8, 9],
+				[1, 2, 3, 4, 5, 6, 7, 8, 9],
+				[1, 2, 3, 4, 5, 6, 7, 8, 9],
+				[1, 2, 3, 4, 5, 6, 7, 8, 9],
+				[1, 2, 3, 4, 5, 6, 7, 8, 9],
+				[1, 2, 3, 4, 5, 6, 7, 8, 9],
+				[1, 2, 3, 4, 5, 6, 7, 8, 9],
+				[1, 2, 3, 4, 5, 6, 7, 8, 9],
+			   ];
+	function sudoku(){
+
+		var row = 0;
+		var i = 0;
+		while(row < 9){
+			var col = 0;
+			while(col < 9){
+				var run = (row*9)+col;
+          		var ibox = checkVbox(run,row,col);
+				// var items = number.diff(sdk[ibox]);
+				// console.log(items);
+				// var item = randomInArray(items);
+				var index = Math.floor(Math.random()*sdk[ibox].length)
+				cube[row][col] = sdk[row][index];//+":"+vbox;
+				sdk[ibox].splice(index,1);
+				// i++
+				col++;
+			}
+			row++;
+		}
+		console.log(sdk);	
+
+		return cube;
+	}	
+
+	function randomInArray(items){
+		return item = items[Math.floor(Math.random()*items.length)];
+	}
+
+	function checkVbox(cunt,r,c){
+		var column = Math.floor((cunt/3)%3);
+		var line = Math.floor(r/3);
+		return column+(line*3);
+	}
+
+	Array.prototype.diff = function(a) {
+	    return this.filter(function(i) {return a.indexOf(i) < 0;});
+	};
+
+console.log(sudoku());	
+var v = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+console.log(v.splice(6));	
+
+</script>
+
+</body>
+</html>
