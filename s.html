@@ -33,12 +33,16 @@
 			while(col < 9){
 				var run = (row*9)+col;
           		var ibox = checkVbox(run,row,col);
-				// var items = number.diff(sdk[ibox]);
-				// console.log(items);
-				// var item = randomInArray(items);
-				var index = Math.floor(Math.random()*sdk[ibox].length)
-				cube[row][col] = sdk[row][index];//+":"+vbox;
-				sdk[ibox].splice(index,1);
+    //       		var cArr = getColtoArray(r,c);
+				// var items = sdk[ibox].diff(cube[row].concat(cArr));
+				// // console.log("ibox:"+ibox);
+				// var index = randomInArray(items);
+				// var index = Math.floor(Math.random()*sdk[ibox].length);
+				// // console.log(ibox+":"+index+":"+sdk[ibox][index]+":"+col+":"+sdk[ibox]);
+				// // console.log(sdk[ibox].diff(number));
+				cube[row][col] = checkIbox(run,row,col);//+":"+Math.floor(run%3);//sdk[row][col];
+				// cube[row][col] = theNumber(run,row,col);
+				// sdk[ibox].splice(index,1);
 				// i++
 				col++;
 			}
@@ -47,7 +51,33 @@
 		console.log(sdk);	
 
 		return cube;
-	}	
+	}
+
+	function checkIbox(cunt,r,c){
+		var column = Math.floor((cunt%3));
+		var line = Math.floor(r%3);
+		return column+(line*3);
+	}
+
+	function theNumber(run,r,c){
+		var ibox = checkVbox(run,r,c);
+		var cArr = getColtoArray(r,c);
+		var n_used = cube[r].concat(cArr);
+		var items = sdk[ibox].diff(n_used);
+		var item = randomInArray(items);
+		var index = sdk[ibox].indexOf(item);
+		sdk[ibox].splice(index,1);
+		return item;
+	}
+
+	function getColtoArray(r,c){
+		var arr = [];
+		while(r > 0){
+			arr[arr.length] = cube[r,c];
+			r--;
+		}
+		return arr;
+	}
 
 	function randomInArray(items){
 		return item = items[Math.floor(Math.random()*items.length)];
@@ -64,9 +94,11 @@
 	};
 
 console.log(sudoku());	
-var v = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-console.log(v.splice(6));	
+// var v = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+// var a = [3,4,5,0];
+// var b = [6,7,8];
+// var c = a.concat(b);
+// console.log(v.diff(c));	
 
 </script>
 
