@@ -49,11 +49,9 @@
 					// iArray[iArray.length] = rNum;
 				var xy = getXYtoArray(vrow,vcol);
 				var remain = sdk[ibox].diff(xy);
+				console.log("xy:"+xy+" remain:"+remain);
 
 				var index = Math.floor(Math.random()*remain.length);
-				console.log(vrow+":"+vcol+":"+index+":"+xy+" remain:"+remain);
-				// remain don't same value in row and col //
-
 				cube[vrow][vcol] = remain[index];//sdk[ibox][index];//
 				// console.log(row[irow]+":"+col[icol]);
 				// sdk[ibox].indexOf(remain[index])
@@ -63,7 +61,7 @@
 			// console.log(row[irow]);
 			row.splice(irow,1);
 		}
-		// console.log(sdk);
+		console.log(sdk);
 		return cube;
 	}
 
