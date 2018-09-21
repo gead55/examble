@@ -25,10 +25,12 @@
 				[1, 2, 3, 4, 5, 6, 7, 8, 9],
 			   ];
 	function sudoku(){
-		var iArray = [];
-		var row = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+		console.log(sdk);
+		var isConflict = true;
+		var row = [0, 3, 6];//[0, 1, 2, 3, 4, 5, 6, 7, 8];//
 		var i = 0;
 		while(row.length > 0){
+			isConflict = true;
 			var irow = Math.floor(Math.random()*row.length);
 			var col = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 			while(col.length > 0){
@@ -40,28 +42,29 @@
 
           		var ibox = checkIbox(run,vrow,vcol);
           		var pbox = checkPbox(run,vrow,vcol);
+          		// console.log(run+":"+vrow+":"+vcol+":"+ibox+":"+pbox+":"+col)
+          		var xy = getXYtoArray(ibox,pbox);
+          		var remain = sdk[vrow].diff(xy);
+          		var the_one = remain[Math.floor(Math.random()*remain.length)];
+		console.log("["+ibox+"]["+pbox+"]"+the_one+"::"+remain);
+		// console.log(sdk[vrow]+":diff:"+xy);
+		// console.log(ibox+":"+pbox+":"+xy+"|"+sdk[vrow]+"::"+remain);
+				if(remain.length){
+	          		cube[ibox][pbox] = the_one;
+	     			sdk[vrow].splice(sdk[vrow].indexOf(the_one),1);
+	     			col.splice(icol,1);
+				}else{
+		console.log("///////////////////");
 
-    //       		var cArr = getXYtoArray(row,col);
-          		// var x = Math.floor(run/9);
-          		// var y = Math.floor(run%9);
-				// cube[row][col] = Math.floor(run%9);//+":"+Math.floor(run%3);//sdk[row][col];
-				// cube[row[irow]-1][col[icol]-1] = icol;
-					// iArray[iArray.length] = rNum;
-				var xy = getXYtoArray(vrow,vcol);
-				var remain = sdk[ibox].diff(xy);
+					isConflict = false;
+					break;
+				}
 
-				var index = Math.floor(Math.random()*remain.length);
-				console.log(vrow+":"+vcol+":"+index+":"+xy+" remain:"+remain);
-				// remain don't same value in row and col //
-
-				cube[vrow][vcol] = remain[index];//sdk[ibox][index];//
-				// console.log(row[irow]+":"+col[icol]);
-				// sdk[ibox].indexOf(remain[index])
-				sdk[ibox].splice(sdk[ibox].indexOf(remain[index]),1);
-				col.splice(icol,1);
 			}
-			// console.log(row[irow]);
-			row.splice(irow,1);
+		console.log("**********************");
+			
+			// if(isConflict) 
+				row.splice(irow,1);
 		}
 		// console.log(sdk);
 		return cube;
@@ -70,12 +73,15 @@
 	function getXYtoArray(r,c){
 		var arr = [];
 		var i = 0;
+		// console.log(r+":"+c);
 		while(i < 9){
-			if(cube[r][i] > 0){
-				arr[arr.length] = cube[r][i];
+			if(cube[i][c] > 0){
+				arr[arr.length] = cube[i][c];
 			}
 			i++;
 		}
+		// console.log(arr+"/"+cube[r]);
+		//console.log(arr.concat(cube[r]));
 		return arr.concat(cube[r]);
 	}
 
