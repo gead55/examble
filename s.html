@@ -1,118 +1,81 @@
-<html>
-<body>
 <script type="text/javascript">
-	var number = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-	var cube = [
-				[0, 0, 0, 0, 0, 0, 0, 0, 0],
-				[0, 0, 0, 0, 0, 0, 0, 0, 0],
-				[0, 0, 0, 0, 0, 0, 0, 0, 0],
-				[0, 0, 0, 0, 0, 0, 0, 0, 0],
-				[0, 0, 0, 0, 0, 0, 0, 0, 0],
-				[0, 0, 0, 0, 0, 0, 0, 0, 0],
-				[0, 0, 0, 0, 0, 0, 0, 0, 0],
-				[0, 0, 0, 0, 0, 0, 0, 0, 0],
-				[0, 0, 0, 0, 0, 0, 0, 0, 0],
-			   ];
-	var sdk = [
-				[1, 2, 3, 4, 5, 6, 7, 8, 9],
-				[1, 2, 3, 4, 5, 6, 7, 8, 9],
-				[1, 2, 3, 4, 5, 6, 7, 8, 9],
-				[1, 2, 3, 4, 5, 6, 7, 8, 9],
-				[1, 2, 3, 4, 5, 6, 7, 8, 9],
-				[1, 2, 3, 4, 5, 6, 7, 8, 9],
-				[1, 2, 3, 4, 5, 6, 7, 8, 9],
-				[1, 2, 3, 4, 5, 6, 7, 8, 9],
-				[1, 2, 3, 4, 5, 6, 7, 8, 9],
-			   ];
 	function sudoku(){
-		console.log(sdk);
-		var isConflict = true;
-		var row = [0, 3, 6];//[0, 1, 2, 3, 4, 5, 6, 7, 8];//
-		var i = 0;
-		while(row.length > 0){
-			isConflict = true;
-			var irow = Math.floor(Math.random()*row.length);
-			var col = [0, 1, 2, 3, 4, 5, 6, 7, 8];
-			while(col.length > 0){
-				var icol = Math.floor(Math.random()*col.length);
-				var vrow = row[irow];
-				var vcol = col[icol];
-				// var run = (row*9)+col;
-				var run = (vrow*9)+vcol;
-
-          		var ibox = checkIbox(run,vrow,vcol);
-          		var pbox = checkPbox(run,vrow,vcol);
-          		// console.log(run+":"+vrow+":"+vcol+":"+ibox+":"+pbox+":"+col)
-          		var xy = getXYtoArray(ibox,pbox);
-          		var remain = sdk[vrow].diff(xy);
-          		var the_one = remain[Math.floor(Math.random()*remain.length)];
-		console.log("["+ibox+"]["+pbox+"]"+the_one+"::"+remain);
-		// console.log(sdk[vrow]+":diff:"+xy);
-		// console.log(ibox+":"+pbox+":"+xy+"|"+sdk[vrow]+"::"+remain);
-				if(remain.length){
-	          		cube[ibox][pbox] = the_one;
-	     			sdk[vrow].splice(sdk[vrow].indexOf(the_one),1);
-	     			col.splice(icol,1);
-				}else{
-		console.log("///////////////////");
-
-					isConflict = false;
-					break;
-				}
-
+		var cube = [];
+		var sdk = [];
+		var tmp = [];
+		var numbers = [1,2,3,4,5,6,7,8,9];
+		var sdk = [
+				[1, 2, 3, 4, 5, 6, 7, 8, 9],
+				[1, 2, 3, 4, 5, 6, 7, 8, 9],
+				[1, 2, 3, 4, 5, 6, 7, 8, 9],
+				[1, 2, 3, 4, 5, 6, 7, 8, 9],
+				[1, 2, 3, 4, 5, 6, 7, 8, 9],
+				[1, 2, 3, 4, 5, 6, 7, 8, 9],
+				[1, 2, 3, 4, 5, 6, 7, 8, 9],
+				[1, 2, 3, 4, 5, 6, 7, 8, 9],
+				[1, 2, 3, 4, 5, 6, 7, 8, 9],
+			   ];
+		// set begin
+		for (var i = cube.length; i < 81; i++) {
+			var ibox = checkIbox(i);
+			if(ibox === 2 || ibox === 4 || ibox === 6){
+				var ria = randomInArray(sdk[ibox]);
+				cube[i] = ria[0];
+				
+				sdk[ibox].splice(ria[1],1);
+			}else{
+				cube[i] = 0;
 			}
-		console.log("**********************");
-			
-			// if(isConflict) 
-				row.splice(irow,1);
 		}
-		// console.log(sdk);
-		return cube;
+		
+		// var index = cube.indexOf(0);
+		
+		// while(index > -1){
+		// 	var ibox = checkIbox(index);
+		// 	var remain = find
+		// 	var ria = randomInArray(sdk[ibox]);
+		// 	cube[index] = ria[0];
+			
+		// 	sdk[ibox].splice(ria[1],1);
+
+		// 	index = cube.indexOf(0);	
+		// }
+
+		b2Dimension(cube);
+
+		return sdk;
 	}
 
-	function getXYtoArray(r,c){
+	function b2Dimension(array){
 		var arr = [];
-		var i = 0;
-		// console.log(r+":"+c);
-		while(i < 9){
-			if(cube[i][c] > 0){
-				arr[arr.length] = cube[i][c];
+		var tmp = [];
+		for (var i = 0; i < array.length; i++) {
+			tmp[i%9] = array[i];
+			if(i%9 === 8){
+				arr[arr.length] = tmp;
+				tmp = [];
 			}
-			i++;
 		}
-		// console.log(arr+"/"+cube[r]);
-		//console.log(arr.concat(cube[r]));
-		return arr.concat(cube[r]);
+		console.log(arr);
 	}
 
 	function randomInArray(items){
-		return item = items[Math.floor(Math.random()*items.length)];
+		var indexRandom = Math.floor(Math.random()*items.length);
+		var item = [items[indexRandom],indexRandom];
+		return item;
 	}
 
-	function checkPbox(cunt,r,c){
+	function checkPbox(cunt){
 		var column = Math.floor((cunt%3));
-		var line = Math.floor(r%3);
+		var line = Math.floor(Math.floor(cunt/9)%3);
 		return column+(line*3);
 	}
 
-	function checkIbox(cunt,r,c){
+	function checkIbox(cunt){
 		var column = Math.floor((cunt/3)%3);
-		var line = Math.floor(r/3);
+		var line = Math.floor(Math.floor(cunt/9)/3);
 		return column+(line*3);
 	}
-
-	Array.prototype.diff = function(a) {
-	    return this.filter(function(i) {return a.indexOf(i) < 0;});
-	};
 
 console.log(sudoku());	
-// var v = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-// var a = [3,4,5,0];
-// var b = [6,7,8];
-// var c = a.concat(b);
-// console.log(v.diff(c));	
-
 </script>
-
-</body>
-</html>
