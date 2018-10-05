@@ -15,7 +15,8 @@
 				[1, 2, 3, 4, 5, 6, 7, 8, 9],
 				[1, 2, 3, 4, 5, 6, 7, 8, 9],
 			   ];
-		// set begin
+
+		// set default 3 box [2,4,6]
 		for (var i = cube.length; i < 81; i++) {
 			var ibox = checkIbox(i);
 			if(ibox === 2 || ibox === 4 || ibox === 6){
@@ -27,12 +28,12 @@
 				cube[i] = 0;
 			}
 		}
-		
+
 		// var index = cube.indexOf(0);
 		
 		// while(index > -1){
 		// 	var ibox = checkIbox(index);
-		// 	var remain = find
+		// 	var remain = findNCanbe(index);
 		// 	var ria = randomInArray(sdk[ibox]);
 		// 	cube[index] = ria[0];
 			
@@ -46,6 +47,10 @@
 		return sdk;
 	}
 
+	function findNCanbe(index){
+		return false;
+	}
+	
 	function b2Dimension(array){
 		var arr = [];
 		var tmp = [];
