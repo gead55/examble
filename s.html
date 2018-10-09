@@ -29,25 +29,54 @@
 			}
 		}
 
-		// var index = cube.indexOf(0);
+		var index = cube.indexOf(0);
 		
-		// while(index > -1){
-		// 	var ibox = checkIbox(index);
-		// 	var remain = findNCanbe(index);
-		// 	var ria = randomInArray(sdk[ibox]);
-		// 	cube[index] = ria[0];
-			
-		// 	sdk[ibox].splice(ria[1],1);
+		while(index > -1){
+			var ibox = checkIbox(index);
+			var pbox = checkPbox(index);
+			// if(index < 9){
+				// var remain = findNCanbe(index,sdk,cube);
+				// console.log(remain);
+			// }
+			// if(remain.length <= 3){
+				// var pick = Math.floor(Math.random()*remain.length);
 
-		// 	index = cube.indexOf(0);	
-		// }
+				// cube[index] = remain[pick];
+				cube[index] = -1;
+			// 	sdk[ibox].splice(sdk[ibox].indexOf(remain[pick]),1);
+
+			// }
+			
+			// sdk[ibox].splice(ria[1],1);
+			// console.log(index+"["+ibox+","+pbox+"]");
+			index = cube.indexOf(0);	
+		}
 
 		b2Dimension(cube);
 
 		return sdk;
 	}
 
-	function findNCanbe(index){
+	function findNCanbe(index,sdk,cube){
+		var numbers = [1,2,3,4,5,6,7,8,9];
+		var arr = [];
+		var ibox = checkIbox(index);
+		//sdk[ibox] N in box
+		// N in Columns
+		var icol = Math.floor(index%9);
+		for (var i = numbers.length - 1; i >= 0; i--) {
+			// console.log(numbers[i]+":"+(icol));
+			if(cube[icol] > 0)
+				arr[arr.length] = cube[icol];
+			icol+=9;
+		}
+		//N in Rows
+		var irow = Math.floor(index/9);
+
+		// arr = arr.concat(cube.slice(irow,9));
+		// arr = arr.concat();
+		// console.log(arr);
+		// return sdk[ibox].diff(arr);
 		return false;
 	}
 	
@@ -81,6 +110,10 @@
 		var line = Math.floor(Math.floor(cunt/9)/3);
 		return column+(line*3);
 	}
+
+	// Array.prototype.diff = function(a) {
+	//     return this.filter(function(i) {return a.indexOf(i) < 0;});
+	// };
 
 console.log(sudoku());	
 </script>
