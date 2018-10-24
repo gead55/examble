@@ -28,7 +28,32 @@
 		}
 		console.log(sdk);
 		cube = cube.map(findNCanbe);
+		solveSDK(cube);
 		return b2Dimension(cube);
+	}
+
+	function solveSDK(arr){
+		var run = 0;
+		var flag = true;
+		var tmp = 9;
+		var index = 0;
+		while(flag){
+			if(run < 80){
+				var len = arr[run].length;
+				if(len > 1 && len < tmp){
+					tmp = len;
+					index = run;
+				}
+			}else{
+				flag = false;
+			}
+			run++;
+		}
+		console.log(index+":"+arr[index]+":"+tmp);
+	}
+
+	function removeZero(value){
+		return value > 0;
 	}
 
 	function findNCanbe(c,i,a){
@@ -37,21 +62,23 @@
 		var arr = [];
 		var ibox = checkIbox(i);
 		// find rows
-		var row = i/9;
-		var irow = a.slice(Math.floor(row*9),Math.floor(row+9));
-		// console.log(Math.floor(row*9)+":"+Math.floor(row+9));
-		// var pbox = checkPbox(i);
-		//sdk[ibox] N in box
-		// N in Columns
-		var icol = Math.floor(c%9);
-		// for (var k = numbers.length - 1; k >= 0; k--) {
-		// 	// console.log(numbers[i]+":"+(icol));
-		// 	if(cube[icol] > 0)
-		// 		arr[arr.length] = cube[icol];
-		// 	icol+=9;
-		// }
-		var io = randomInArray(sdk[ibox]);
-		return -1;
+		var irow = Math.floor(i/9);
+		// set range of row
+		var arr_row = a.slice(Math.floor(irow*9),Math.floor(irow*9)+9);
+		// console.log(arr_row.filter(removeZero));
+		// find cols
+		var icol = Math.floor(i%9);
+		var arr_col = [];
+		for (var j = 0; arr_col.length < 9; j++) {
+			arr_col[j] = a[(j*9)+icol];
+		}
+		var exist = arr_row.filter(removeZero).concat(arr_col.filter(removeZero));
+		// finc in boxes
+		var remain = numbers.diff(exist);
+		// console.log(i+":"+exist+":"+remain);
+		
+
+		return remain;
 	}
 
 	function checkPbox(cunt){
@@ -87,5 +114,9 @@
 		// var item = [items[indexRandom],indexRandom];
 		// return item;
 	}
+
+	Array.prototype.diff = function(a) {
+	    return this.filter(function(i) {return a.indexOf(i) < 0;});
+	};	
 console.log(sudoku());
 </script>
